@@ -30,7 +30,7 @@ func (r *ReservationStateFile) Load() (*State, error) {
 			row := string(i)
 			seatState.Seats[row] = make([]int, 8)
 			for j := range seatState.Seats[row] {
-				seatState.Seats[row][j] = -1
+				seatState.Seats[row][j] = EmptySeat
 			}
 		}
 		return &seatState, nil

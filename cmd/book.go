@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-func NewBookingCommand(state.Storable) *cobra.Command {
+func NewBookingCommand(bookingState state.Storable) *cobra.Command {
 	return &cobra.Command{
 		Use:   "BOOK [flight_id] [num_tickets]",
 		Short: "Book a flight",
@@ -31,9 +31,8 @@ func NewBookingCommand(state.Storable) *cobra.Command {
 				return
 			}
 
-			bookingState := state.NewFileState("")
-			reserver := booking.NewFlightReservations(bookingState)
-			done, err := reserver.BookSeats(string(seatPreference[0]), start, seats)
+			reservoir := booking.NewFlightReservations(bookingState)
+			done, err := reservoir.BookSeats(string(seatPreference[0]), start, seats)
 			if !done {
 				fmt.Printf("booking failed for %s tickets for seat %s : %v\n", numSeats, seatPreference, err)
 				os.Exit(-1)

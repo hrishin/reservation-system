@@ -2,20 +2,44 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/hrishin/reservation-system/internal/booking"
 	"github.com/hrishin/reservation-system/internal/state"
+	"os"
+	"strconv"
 
 	"github.com/spf13/cobra"
 )
 
-func NewCancelCommand(state.Storable) *cobra.Command {
+func NewCancelCommand(bookingState state.Storable) *cobra.Command {
 	return &cobra.Command{
-		Use:   "CANCE [booking_id]",
+		Use:   "CANCEL [booking_id]",
 		Short: "Cancel a booking",
-		Args:  cobra.ExactArgs(1),
+		Args:  cobra.ExactArgs(2),
 		Run: func(cmd *cobra.Command, args []string) {
-			bookingID := args[0]
-			fmt.Printf("Cancelling booking %s\n", bookingID)
-			// Your cancellation logic here
+			seatPreference := args[0]
+			numSeats := args[1]
+
+			startNum := seatPreference[1:]
+			start, err := strconv.Atoi(startNum)
+			if err != nil {
+				fmt.Printf("Error converting substring to integer: %v\n", err)
+				return
+			}
+
+			seats, err := strconv.Atoi(numSeats)
+			if err != nil {
+				fmt.Printf("Error converting substring to integer: %v\n", err)
+				return
+			}
+
+			row := string(seatPreference[0])
+			reservoir := booking.NewFlightReservations(bookingState)
+			done, err := reservoir.CancelSeats(row, start, seats)
+			if !done {
+				fmt.Printf("cancellation failed for %s tickets for seat %s : %v\n", numSeats, seatPreference, err)
+				os.Exit(-1)
+			}
+			fmt.Printf("Confirmed cancellation %s tickets for seating %s\n", numSeats, seatPreference)
 		},
 	}
 }
