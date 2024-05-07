@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/hrishin/reservation-system/internal/reservation"
+	"github.com/hrishin/reservation-system/internal/booking"
 	"github.com/hrishin/reservation-system/internal/state"
 	"github.com/spf13/cobra"
 	"os"
@@ -32,7 +32,7 @@ func NewBookingCommand(state.Storable) *cobra.Command {
 			}
 
 			bookingState := state.NewFileState("")
-			reserver := reservation.NewFlightReservations(bookingState)
+			reserver := booking.NewFlightReservations(bookingState)
 			done, err := reserver.BookSeats(string(seatPreference[0]), start, seats)
 			if !done {
 				fmt.Printf("booking failed for %s tickets for seat %s : %v\n", numSeats, seatPreference, err)

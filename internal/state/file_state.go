@@ -78,7 +78,7 @@ func NewFileState(sateDir string) Storable {
 			fmt.Println("Error finding user's home directory for storing the default sate file:", err)
 			os.Exit(0)
 		}
-		sateDir = filepath.Join(homeDir, ".reservation")
+		sateDir = filepath.Join(homeDir, ".booking")
 	}
 
 	return &ReservationStateFile{

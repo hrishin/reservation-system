@@ -10,7 +10,7 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "reservation",
+	Use:   "booking",
 	Short: "A CLI application for booking and cancellation of flights",
 }
 

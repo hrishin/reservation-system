@@ -1,4 +1,4 @@
-package reservation
+package booking
 
 import (
 	"encoding/json"

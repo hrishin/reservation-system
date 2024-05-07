@@ -1,4 +1,4 @@
-package reservation
+package booking
 
 import (
 	"fmt"
@@ -12,14 +12,14 @@ type FlightReservation struct {
 func (r *FlightReservation) BookSeats(row string, start int, seats int) (bool, error) {
 	rs, err := r.state.Load()
 	if err != nil {
-		fmt.Printf("error loading the reservation state: %v\n", err)
+		fmt.Printf("error loading the booking state: %v\n", err)
 		return false, err
 	}
 
 	lastSeat := start + seats - 1
 	maxSeat := len(rs.Seats[row])
 	if _, ok := rs.Seats[row]; !ok || lastSeat >= maxSeat {
-		return false, fmt.Errorf("number of seats are beyong the current capacity of the reservation")
+		return false, fmt.Errorf("number of seats are beyong the current capacity of the booking")
 	}
 
 	for i := 0; i < seats; i++ {
@@ -35,7 +35,7 @@ func (r *FlightReservation) BookSeats(row string, start int, seats int) (bool, e
 
 	rs.ID = currentID + 1
 	if err := r.state.Save(rs); err != nil {
-		fmt.Printf("error in saving the reservation state: %v\n", err)
+		fmt.Printf("error in saving the booking state: %v\n", err)
 		return false, err
 	}
 
