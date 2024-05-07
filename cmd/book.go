@@ -2,8 +2,11 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/hrishin/reservation-system/internal/reservation"
 	"github.com/hrishin/reservation-system/internal/state"
 	"github.com/spf13/cobra"
+	"os"
+	"strconv"
 )
 
 func NewBookingCommand(state.Storable) *cobra.Command {
@@ -14,8 +17,28 @@ func NewBookingCommand(state.Storable) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			seatPreference := args[0]
 			numSeats := args[1]
-			fmt.Printf("Booking %s tickets for flight %s\n", numSeats, seatPreference)
-			// Your booking logic here
+
+			startNum := seatPreference[1:]
+			start, err := strconv.Atoi(startNum)
+			if err != nil {
+				fmt.Printf("Error converting substring to integer: %v\n", err)
+				return
+			}
+
+			seats, err := strconv.Atoi(numSeats)
+			if err != nil {
+				fmt.Printf("Error converting substring to integer: %v\n", err)
+				return
+			}
+
+			bookingState := state.NewFileState("")
+			reserver := reservation.NewFlightReservations(bookingState)
+			done, err := reserver.BookSeats(string(seatPreference[0]), start, seats)
+			if !done {
+				fmt.Printf("booking failed for %s tickets for seat %s : %v\n", numSeats, seatPreference, err)
+				os.Exit(-1)
+			}
+			fmt.Printf("Confirmed %s tickets for seating %s\n", numSeats, seatPreference)
 		},
 	}
 }

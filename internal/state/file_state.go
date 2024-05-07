@@ -15,7 +15,6 @@ type ReservationStateFile struct {
 }
 
 func (r *ReservationStateFile) Load() (*State, error) {
-	//TODO implement me
 	var seatState State
 	sf := filepath.Join(r.path, r.file)
 	file, err := os.Open(sf)
@@ -48,6 +47,12 @@ func (r *ReservationStateFile) Load() (*State, error) {
 }
 
 func (r *ReservationStateFile) Save(seatState *State) error {
+	err := os.MkdirAll(r.path, 0755)
+	if err != nil {
+		fmt.Printf("Error creating directory: %v\n", err)
+		return err
+	}
+
 	sf := filepath.Join(r.path, r.file)
 	file, err := os.Create(sf)
 	if err != nil {

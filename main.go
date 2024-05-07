@@ -27,6 +27,6 @@ func iniCmd(stare state.Storable) {
 }
 
 func main() {
-	iniCmd(state.NewFileSate(""))
+	iniCmd(state.NewFileState(""))
 	Execute()
 }
