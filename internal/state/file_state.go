@@ -26,11 +26,12 @@ func (r *ReservationStateFile) Load() (*State, error) {
 			return nil, err
 		}
 
-		seatState = State{ID: 1}
+		seatState = State{ID: 1, Seats: make(map[string][]int)}
 		for i := 'A'; i <= 'U'; i++ {
-			seatState.seats[string(i)] = make([]int32, 8)
-			for j := range seatState.seats[string(i)] {
-				seatState.seats[string(i)][j] = -1
+			row := string(i)
+			seatState.Seats[row] = make([]int, 8)
+			for j := range seatState.Seats[row] {
+				seatState.Seats[row][j] = -1
 			}
 		}
 		return &seatState, nil

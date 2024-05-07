@@ -1,8 +1,8 @@
 package state
 
 type State struct {
-	seats map[string][]int32 `json:"seats"`
-	ID    int32              `json:"id"`
+	Seats map[string][]int `json:"seats"`
+	ID    int              `json:"id"`
 }
 
 type Storable interface {
