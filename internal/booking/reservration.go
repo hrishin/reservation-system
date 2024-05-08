@@ -19,7 +19,7 @@ func (r *FlightReservation) BookSeats(row string, start int, seats int) (bool, e
 	lastSeat := start + seats - 1
 	maxSeat := len(rs.Seats[row])
 	if _, ok := rs.Seats[row]; !ok || isBeyondSeatsCapacity(lastSeat, maxSeat) {
-		return false, fmt.Errorf("number of seats are beyong the current capacity of the booking")
+		return false, fmt.Errorf("number of seats are beyond the current capacity of the booking")
 	}
 
 	for i := 0; i < seats; i++ {

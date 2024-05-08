@@ -14,32 +14,33 @@ func NewCancelCommand() *cobra.Command {
 		Use:   "CANCEL flight_id] [num_tickets]\n\n  CANCEL A0 1",
 		Short: "Cancel a booking",
 		Args:  cobra.ExactArgs(2),
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			seatPreference := args[0]
 			numSeats := args[1]
 
 			startNum := seatPreference[1:]
 			start, err := strconv.Atoi(startNum)
 			if err != nil {
-				fmt.Printf("Error converting substring to integer: %v\n", err)
-				return
+				fmt.Fprintf(os.Stderr, "Error converting substring to integer: %v\n", err)
+				return err
 			}
 
 			seats, err := strconv.Atoi(numSeats)
 			if err != nil {
-				fmt.Printf("Error converting substring to integer: %v\n", err)
-				return
+				fmt.Fprintf(os.Stderr, "Error converting substring to integer: %v\n", err)
+				return err
 			}
 
 			row := string(seatPreference[0])
 
-			reservoir := booking.NewFlightReservations(rootBookingState)
-			done, err := reservoir.CancelSeats(row, start, seats)
+			reservation := booking.NewFlightReservations(rootBookingState)
+			done, err := reservation.CancelSeats(row, start, seats)
 			if !done {
-				fmt.Printf("cancellation failed for %s tickets for seat %s : %v\n", numSeats, seatPreference, err)
-				os.Exit(-1)
+				fmt.Fprintf(os.Stderr, "cancellation failed for %s tickets for seat %s : %v\n", numSeats, seatPreference, err)
+				return err
 			}
 			fmt.Printf("Confirmed cancellation %s tickets for seating %s\n", numSeats, seatPreference)
+			return nil
 		},
 	}
 }

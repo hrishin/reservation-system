@@ -11,8 +11,10 @@ var rootBookingState state.Storable
 
 func NewRootCmd() *cobra.Command {
 	var rootCmd = &cobra.Command{
-		Use:   "booking",
-		Short: "A CLI application for booking and cancellation of flight reservations",
+		Use:           "booking",
+		Short:         "A CLI application for booking and cancellation of flight reservations",
+		SilenceErrors: true,
+		SilenceUsage:  true,
 		Run: func(cmd *cobra.Command, args []string) {
 			cmd.Help()
 		},
