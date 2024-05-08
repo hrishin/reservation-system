@@ -70,12 +70,12 @@ func (r *ReservationStateFile) Save(seatState *State) error {
 }
 
 func NewFileState(sateDir string) Storable {
+	fmt.Println("booking state path", sateDir)
 	if sateDir == "" {
 		// Get the user's home directory
 		homeDir, err := os.UserHomeDir()
 		if err != nil {
-			//TODO: re-think exit
-			fmt.Println("Error finding user's home directory for storing the default sate file:", err)
+			fmt.Println("error finding user's home directory for storing the default sate file:", err)
 			os.Exit(0)
 		}
 		sateDir = filepath.Join(homeDir, ".booking")
@@ -85,4 +85,5 @@ func NewFileState(sateDir string) Storable {
 		path: sateDir,
 		file: STATE_FILE_NAME,
 	}
+
 }

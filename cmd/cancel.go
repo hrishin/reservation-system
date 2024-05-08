@@ -3,14 +3,13 @@ package cmd
 import (
 	"fmt"
 	"github.com/hrishin/reservation-system/internal/booking"
-	"github.com/hrishin/reservation-system/internal/state"
 	"os"
 	"strconv"
 
 	"github.com/spf13/cobra"
 )
 
-func NewCancelCommand(bookingState state.Storable) *cobra.Command {
+func NewCancelCommand() *cobra.Command {
 	return &cobra.Command{
 		Use:   "CANCEL [booking_id]",
 		Short: "Cancel a booking",
@@ -33,7 +32,8 @@ func NewCancelCommand(bookingState state.Storable) *cobra.Command {
 			}
 
 			row := string(seatPreference[0])
-			reservoir := booking.NewFlightReservations(bookingState)
+
+			reservoir := booking.NewFlightReservations(rootBookingState)
 			done, err := reservoir.CancelSeats(row, start, seats)
 			if !done {
 				fmt.Printf("cancellation failed for %s tickets for seat %s : %v\n", numSeats, seatPreference, err)
