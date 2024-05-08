@@ -27,11 +27,17 @@ export REPOSITORY_LIST_URL=https://gist.githubusercontent.com/jmelis/c60e61a8932
 ./bin/reservation-darwin-amd64 BOOK A0 2
 ```
 
+
+## Extra Command
+CLI provides following additional command
+```
+ VIEW        View flight booking
+```
+
 ## Extra Options
 Command provides following additional flags
 ```
---state-file <path> - a directory path to store the booking state file. Default path users home dir
-
+--state-file string   directory path to store the booking state file
 ```
 
 ## Development
