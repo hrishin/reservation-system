@@ -18,12 +18,12 @@ func (r *FlightReservation) BookSeats(row string, start int, seats int) (bool, e
 
 	lastSeat := start + seats - 1
 	maxSeat := len(rs.Seats[row])
-	if _, ok := rs.Seats[row]; !ok || lastSeat >= maxSeat {
+	if _, ok := rs.Seats[row]; !ok || isBeyondSeatsCapacity(lastSeat, maxSeat) {
 		return false, fmt.Errorf("number of seats are beyong the current capacity of the booking")
 	}
 
 	for i := 0; i < seats; i++ {
-		if rs.Seats[row][start+i] >= 0 {
+		if isSeatBooked(row, start+i, rs) {
 			return false, fmt.Errorf("requested seat number request is already booked: %v%v", row, start+i)
 		}
 	}
@@ -57,7 +57,7 @@ func (r *FlightReservation) CancelSeats(row string, start int, seats int) (bool,
 
 	id := rs.Seats[row][start]
 	for i := 0; i < seats; i++ {
-		if !isFromSameBookingRequest(id, row, start+i, rs) || !isSeatBooked(row, start+1, rs) {
+		if !isFromSameBookingRequest(id, row, start+i, rs) || !isSeatBooked(row, start+i, rs) {
 			return false, fmt.Errorf("requested seat %v%v is not valid for cancellation, either not booked for this booking or never booked before at all", row, start+i)
 		}
 	}

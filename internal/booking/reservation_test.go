@@ -19,21 +19,7 @@ func TestBookSeat_success(t *testing.T) {
 	}
 }
 
-func TestBookSeat_error_when_seats_are_beyond_capacity(t *testing.T) {
-	temp := t.TempDir()
-	st := state.NewFileState(temp)
-	fr := NewFlightReservations(st)
-	invalidSeats := 9
-	want := false
-
-	got, err := fr.BookSeats("A", 0, invalidSeats)
-	if got != want {
-		t.Errorf("failed to book the tikcet, expecting %v, got %v\n", want, got)
-		t.Errorf("booking error: %v\n", err)
-	}
-}
-
-func TestBookSeate_error_when_seats_are_booked_already(t *testing.T) {
+func TestBookSeat_error_when_invalid_booking_request(t *testing.T) {
 	tempDir := t.TempDir()
 	seatsData := `{
 		"seats": {
@@ -60,7 +46,6 @@ func TestBookSeate_error_when_seats_are_booked_already(t *testing.T) {
 		},
 		"id": 2
 	}`
-	// Parse the JSON data into a State struct
 	var bookingState state.State
 	err := json.Unmarshal([]byte(seatsData), &bookingState)
 	if err != nil {
@@ -73,15 +58,26 @@ func TestBookSeate_error_when_seats_are_booked_already(t *testing.T) {
 	}
 	st := state.NewFileState(tempDir)
 	fr := NewFlightReservations(st)
-	startSeats := 3
-	invalidSeats := 3
-	want := false
 
-	got, err := fr.BookSeats("A", startSeats, invalidSeats)
-	if got != want {
-		t.Errorf("failed to book the tikcet, expecting %v, got %v\n", want, got)
-		t.Errorf("booking error: %v\n", err)
-	}
+	t.Run("seats exceeds beyond row capacity", func(t *testing.T) {
+		want := false
+
+		got, err := fr.BookSeats("A", 0, 9)
+		if got != want {
+			t.Errorf("failed to book the tikcet, expecting %v, got %v\n", want, got)
+			t.Errorf("booking error: %v\n", err)
+		}
+	})
+
+	t.Run("some seats are already booked", func(t *testing.T) {
+		want := false
+
+		got, err := fr.BookSeats("A", 3, 3)
+		if got != want {
+			t.Errorf("failed to book the tikcet, expecting %v, got %v\n", want, got)
+			t.Errorf("booking error: %v\n", err)
+		}
+	})
 }
 
 func TestCancelBooking_success(t *testing.T) {
@@ -196,7 +192,7 @@ func TestCancelBooking_error_when_invalid_cancel_request(t *testing.T) {
 		}
 	})
 
-	t.Run("cancellation request exceeds the seats limit", func(t *testing.T) {
+	t.Run("cancellation request exceeds the row limit", func(t *testing.T) {
 		want := false
 		got, err := fr.CancelSeats("B", 0, 9)
 		if got != want {
