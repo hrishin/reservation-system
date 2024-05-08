@@ -33,6 +33,7 @@ func (r *ReservationStateFile) Load() (*State, error) {
 				seatState.Seats[row][j] = EmptySeat
 			}
 		}
+
 		return &seatState, nil
 	}
 	defer file.Close()
@@ -70,7 +71,6 @@ func (r *ReservationStateFile) Save(seatState *State) error {
 }
 
 func NewFileState(sateDir string) Storable {
-	fmt.Println("booking state path", sateDir)
 	if sateDir == "" {
 		// Get the user's home directory
 		homeDir, err := os.UserHomeDir()

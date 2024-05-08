@@ -10,7 +10,7 @@ import (
 
 func NewBookingCommand() *cobra.Command {
 	return &cobra.Command{
-		Use:   "BOOK [flight_id] [num_tickets]",
+		Use:   "BOOK [flight_id] [num_tickets]\n\n  BOOK A0 1",
 		Short: "Book a flight",
 		Args:  cobra.ExactArgs(2),
 		Run: func(cmd *cobra.Command, args []string) {

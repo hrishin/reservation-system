@@ -24,6 +24,7 @@ func NewRootCmd() *cobra.Command {
 	})
 	rootCmd.AddCommand(NewBookingCommand())
 	rootCmd.AddCommand(NewCancelCommand())
+	rootCmd.AddCommand(NewViewCommand())
 
 	return rootCmd
 }

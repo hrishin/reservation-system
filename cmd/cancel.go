@@ -11,7 +11,7 @@ import (
 
 func NewCancelCommand() *cobra.Command {
 	return &cobra.Command{
-		Use:   "CANCEL [booking_id]",
+		Use:   "CANCEL flight_id] [num_tickets]\n\n  CANCEL A0 1",
 		Short: "Cancel a booking",
 		Args:  cobra.ExactArgs(2),
 		Run: func(cmd *cobra.Command, args []string) {

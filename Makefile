@@ -20,7 +20,7 @@ $(BIN_LINUX):
 	GOARCH=$(ARCH) GOOS=linux CGO_ENABLED=0 go build -o $(BIN_LINUX) main.go
 
 unit-test:
-	go test -race -count=1 -mod=vendor ./internal/...
+	go test -v -race -count=1 -mod=vendor ./internal/...
 
 integration-test:
 	go test -mod=vendor -count=1 ./tests -v
