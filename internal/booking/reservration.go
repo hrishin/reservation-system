@@ -3,6 +3,7 @@ package booking
 import (
 	"fmt"
 	"github.com/hrishin/reservation-system/internal/state"
+	"log/slog"
 )
 
 type Result string
@@ -19,7 +20,7 @@ type FlightReservation struct {
 func (r *FlightReservation) BookSeats(row string, start int, seats int) (Result, error) {
 	rs, err := r.state.Load()
 	if err != nil {
-		fmt.Printf("error loading the booking state: %v\n", err)
+		slog.Error(fmt.Sprintf("loading the booking state: %v\n", err))
 		return Fail, err
 	}
 
@@ -42,7 +43,7 @@ func (r *FlightReservation) BookSeats(row string, start int, seats int) (Result,
 
 	rs.ID = currentID + 1
 	if err := r.state.Save(rs); err != nil {
-		fmt.Printf("error in updating the booking state: %v\n", err)
+		slog.Error(fmt.Sprintf("updating the booking state: %v\n", err))
 		return Fail, err
 	}
 
@@ -52,7 +53,7 @@ func (r *FlightReservation) BookSeats(row string, start int, seats int) (Result,
 func (r *FlightReservation) CancelSeats(row string, start int, seats int) (Result, error) {
 	rs, err := r.state.Load()
 	if err != nil {
-		fmt.Printf("error loading the booking state: %v\n", err)
+		slog.Error(fmt.Sprintf("loading the booking state: %v\n", err))
 		return Fail, err
 	}
 
@@ -74,7 +75,7 @@ func (r *FlightReservation) CancelSeats(row string, start int, seats int) (Resul
 	}
 
 	if err := r.state.Save(rs); err != nil {
-		fmt.Printf("error in updating the booking state: %v\n", err)
+		slog.Error(fmt.Sprintf("updating the booking state: %v\n", err))
 		return Fail, err
 	}
 

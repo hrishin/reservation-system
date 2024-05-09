@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/hrishin/reservation-system/internal/booking"
-	"os"
+	"log/slog"
 	"strconv"
 
 	"github.com/spf13/cobra"
@@ -21,13 +21,13 @@ func NewCancelCommand() *cobra.Command {
 			startNum := seatPreference[1:]
 			start, err := strconv.Atoi(startNum)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error converting substring to integer: %v\n", err)
+				slog.Error(fmt.Sprintf("parsing seat preference, starting seat: %v\n", err))
 				return err
 			}
 
 			seats, err := strconv.Atoi(numSeats)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error converting substring to integer: %v\n", err)
+				slog.Error(fmt.Sprintf("parsing seat preference, number of seat: %v\n", err))
 				return err
 			}
 

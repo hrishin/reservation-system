@@ -3,6 +3,7 @@ package state
 import (
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"os"
 	"path/filepath"
 )
@@ -21,12 +22,12 @@ func (r *ReservationStateFile) Load() (*State, error) {
 
 	if err != nil {
 		if !os.IsNotExist(err) {
-			fmt.Println("Error loading seat state:", err)
+			slog.Error(fmt.Sprintf("loading seat state: %v\n", err))
 			return nil, err
 		}
 
 		seatState = State{ID: 1, Seats: make(map[string][]int)}
-		for i := 'A'; i <= 'U'; i++ {
+		for i := 'A'; i <= 'T'; i++ {
 			row := string(i)
 			seatState.Seats[row] = make([]int, 8)
 			for j := range seatState.Seats[row] {
@@ -50,23 +51,24 @@ func (r *ReservationStateFile) Load() (*State, error) {
 func (r *ReservationStateFile) Save(seatState *State) error {
 	err := os.MkdirAll(r.path, 0755)
 	if err != nil {
-		fmt.Printf("Error creating directory: %v\n", err)
+		slog.Error(fmt.Sprintf("error creating directory: %v\n", err))
 		return err
 	}
 
 	sf := filepath.Join(r.path, r.file)
 	file, err := os.Create(sf)
 	if err != nil {
-		fmt.Println("Error saving seat state:", err)
+		slog.Error(fmt.Sprintf("error saving seat state: %v\n", err))
 		return err
 	}
 	defer file.Close()
 
 	err = json.NewEncoder(file).Encode(seatState)
 	if err != nil {
-		fmt.Println("Error encoding seat state:", err)
+		slog.Error(fmt.Sprintf("error encoding seat state: %v\n", err))
 		return err
 	}
+
 	return nil
 }
 
@@ -75,7 +77,7 @@ func NewFileState(sateDir string) Storable {
 		// Get the user's home directory
 		homeDir, err := os.UserHomeDir()
 		if err != nil {
-			fmt.Println("error finding user's home directory for storing the default sate file:", err)
+			slog.Error(fmt.Sprintf("error finding user's home directory for storing the default sate file: %v", err))
 			os.Exit(0)
 		}
 		sateDir = filepath.Join(homeDir, ".booking")

@@ -1,7 +1,7 @@
 # Reservation System
 
 <p align="left">
-  <a href="https://github.com/hrishin/dockerfile-sources/actions"><img alt="GitHub Actions CI status" src="https://github.com/hrishin/dockerfile-sources/workflows/build-and-test/badge.svg"></a>
+  <a href="https://github.com/hrishin/reservation-system/actions"><img alt="GitHub Actions CI status" src="https://github.com/hrishin/dockerfile-sources/workflows/build-and-test/badge.svg"></a>
 </p>
 
 Is a CLI tool to mange the booking for flights reservations.
@@ -93,3 +93,7 @@ Above diagram depicts objects composition that build up the CLI tool
   - For every booking request system increments the ID by 1, based on which processor system runs ID has finite range
   - In worst case if system run of the numbers for `int` space, then need to manually intervene in the statefile to reset the ID number
     or need to update the program to support better indexing scheme such as `RowID + random number`
+
+- Integration tests
+  - Some of the code is redundant for a reason, as tests should be no-brainer and easy to read and interpret 
+  - Additional scenarios could be covered such as checking view command, verbose logs 
