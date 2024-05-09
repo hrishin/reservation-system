@@ -1,7 +1,7 @@
 # Reservation System
 
 <p align="left">
-  <a href="https://github.com/hrishin/reservation-system/actions"><img alt="GitHub Actions CI status" src="[https://github.com/hrishin/dockerfile-sources/workflows/build-and-test/badge.svg](https://github.com/hrishin/reservation-system/workflows/build-and-test/badge.svg)"></a>
+  <a href="https://github.com/hrishin/reservation-system/actions"><img alt="GitHub Actions CI status" src="https://github.com/hrishin/reservation-system/workflows/build-and-test/badge.svg"></a>
 </p>
 
 Is a CLI tool to mange the booking for flights reservations.
