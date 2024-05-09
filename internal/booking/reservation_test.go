@@ -10,7 +10,7 @@ func TestBookSeat_success(t *testing.T) {
 	temp := t.TempDir()
 	st := state.NewFileState(temp)
 	fr := NewFlightReservations(st)
-	want := true
+	want := Success
 
 	got, err := fr.BookSeats("A", 0, 2)
 	if got != want || err != nil {
@@ -60,7 +60,7 @@ func TestBookSeat_error_when_invalid_booking_request(t *testing.T) {
 	fr := NewFlightReservations(st)
 
 	t.Run("seats exceeds beyond row capacity", func(t *testing.T) {
-		want := false
+		want := Fail
 
 		got, err := fr.BookSeats("A", 0, 9)
 		if got != want {
@@ -70,7 +70,7 @@ func TestBookSeat_error_when_invalid_booking_request(t *testing.T) {
 	})
 
 	t.Run("some seats are already booked", func(t *testing.T) {
-		want := false
+		want := Fail
 
 		got, err := fr.BookSeats("A", 3, 3)
 		if got != want {
@@ -120,7 +120,7 @@ func TestCancelBooking_success(t *testing.T) {
 	}
 	st := state.NewFileState(tempDir)
 	fr := NewFlightReservations(st)
-	want := true
+	want := Success
 
 	got, err := fr.CancelSeats("T", 0, 2)
 	if got != want {
@@ -171,7 +171,8 @@ func TestCancelBooking_error_when_invalid_cancel_request(t *testing.T) {
 	fr := NewFlightReservations(st)
 
 	t.Run("seat is not part of the reservation", func(t *testing.T) {
-		want := false
+		want := Fail
+
 		got, err := fr.CancelSeats("T", 0, 3)
 		if got != want {
 			t.Errorf("failed to cancel the tikcet, expecting %v, got %v\n", want, got)
@@ -182,7 +183,8 @@ func TestCancelBooking_error_when_invalid_cancel_request(t *testing.T) {
 	})
 
 	t.Run("seat has been never booked", func(t *testing.T) {
-		want := false
+		want := Fail
+
 		got, err := fr.CancelSeats("A", 0, 3)
 		if got != want {
 			t.Errorf("failed to cancel the tikcet, expecting %v, got %v\n", want, got)
@@ -193,7 +195,8 @@ func TestCancelBooking_error_when_invalid_cancel_request(t *testing.T) {
 	})
 
 	t.Run("cancellation request exceeds the row limit", func(t *testing.T) {
-		want := false
+		want := Fail
+
 		got, err := fr.CancelSeats("B", 0, 9)
 		if got != want {
 			t.Errorf("failed to cancel the tikcet, expecting %v, got %v\n", want, got)

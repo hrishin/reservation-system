@@ -34,13 +34,9 @@ func NewCancelCommand() *cobra.Command {
 			row := string(seatPreference[0])
 
 			reservation := booking.NewFlightReservations(rootBookingState)
-			done, err := reservation.CancelSeats(row, start, seats)
-			if !done {
-				fmt.Fprintf(os.Stderr, "cancellation failed for %s tickets for seat %s : %v\n", numSeats, seatPreference, err)
-				return err
-			}
-			fmt.Printf("Confirmed cancellation %s tickets for seating %s\n", numSeats, seatPreference)
-			return nil
+			result, err := reservation.CancelSeats(row, start, seats)
+			fmt.Println(result)
+			return err
 		},
 	}
 }

@@ -31,13 +31,9 @@ func NewBookingCommand() *cobra.Command {
 			}
 
 			reservation := booking.NewFlightReservations(rootBookingState)
-			done, err := reservation.BookSeats(string(seatPreference[0]), start, seats)
-			if !done {
-				fmt.Fprintf(os.Stderr, "booking failed for %s tickets for seat %s : %v\n", numSeats, seatPreference, err)
-				return err
-			}
-			fmt.Printf("confirmed %s tickets for seating %s\n", numSeats, seatPreference)
-			return nil
+			result, err := reservation.BookSeats(string(seatPreference[0]), start, seats)
+			fmt.Println(result)
+			return err
 		},
 	}
 }
