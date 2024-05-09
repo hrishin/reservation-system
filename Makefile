@@ -23,7 +23,7 @@ unit-test:
 	go test -v -race -count=1 -mod=vendor ./internal/...
 
 integration-test:
-	go test -mod=vendor -count=1 ./tests -v
+	go test -v -mod=vendor -count=1 ./tests -v
 
 docker: Dockerfile
 	docker image build -t "$(REGISTRY):$(IMG_TAG)" .
