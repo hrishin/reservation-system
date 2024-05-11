@@ -28,5 +28,8 @@ integration-test:
 docker: Dockerfile
 	docker image build -t "$(REGISTRY):$(IMG_TAG)" .
 
+release:
+	goreleaser release
+
 clean:
 	rm -rf bin/

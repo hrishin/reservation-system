@@ -11,7 +11,7 @@ The tool is written in the [Golang](https://golang.org).
 # Usage
 ### Docker
 ```bash
-docker run hriships/reservation:v0.0.1
+mkdir -p $(pwd)/datadir && docker run -v $(pwd)/datadir/:/tmp/data hriships/reservation:v0.0.1 BOOK A0 1 --state-file /tmp/data
 ```
 
 ### Linux
@@ -38,6 +38,9 @@ CLI provides following additional command
 Command provides following additional flags
 ```
 --state-file string   directory path to store the booking state file
+-v, --verbose         enables verbose logging
+
+
 ```
 
 ## Development
