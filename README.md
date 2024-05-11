@@ -14,17 +14,13 @@ The tool is written in the [Golang](https://golang.org).
 mkdir -p $(pwd)/datadir && docker run -v $(pwd)/datadir/:/tmp/data hriships/reservation:v0.0.1 BOOK A0 1 --state-file /tmp/data
 ```
 
-### Linux
+### Binary
+
+Download the right binary from https://github.com/hrishin/reservation-system/releases
 
 ```bash
-./bin/reservation-linux-amd64 BOOK A0 2
+rservation A0 1 --state-file /tmp/data
 ```
-
-### Mac
-```bash
-./bin/reservation-darwin-amd64 BOOK A0 2
-```
-
 
 ## Extra Command
 CLI provides the following additional command
