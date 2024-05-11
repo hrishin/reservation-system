@@ -29,7 +29,7 @@ docker: Dockerfile
 	docker image build -t "$(REGISTRY):$(IMG_TAG)" .
 
 release:
-	goreleaser release
+	goreleaser release --skip validate --clean
 
 clean:
 	rm -rf bin/
