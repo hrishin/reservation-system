@@ -13,8 +13,13 @@ const (
 	Fail    Result = "FAIL"
 )
 
+type Storable interface {
+	Load() (*state.State, error)
+	Save(state *state.State) error
+}
+
 type FlightReservation struct {
-	state state.Storable
+	state Storable
 }
 
 func (r *FlightReservation) BookSeats(row string, start int, seats int) (Result, error) {
@@ -94,7 +99,7 @@ func isFromSameBookingRequest(id int, row string, seat int, rs *state.State) boo
 	return rs.Seats[row][seat] == id
 }
 
-func NewFlightReservations(state state.Storable) *FlightReservation {
+func NewFlightReservations(state Storable) *FlightReservation {
 	return &FlightReservation{
 		state: state,
 	}

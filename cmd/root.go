@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/hrishin/reservation-system/internal/booking"
 	"github.com/hrishin/reservation-system/internal/state"
 	"github.com/spf13/cobra"
 	"log/slog"
@@ -9,7 +10,7 @@ import (
 
 var statePath string
 
-var rootBookingState state.Storable
+var rootBookingState booking.Storable
 
 var verbose bool
 
