@@ -104,26 +104,21 @@ func TestFileStatSaveAndLoad(t *testing.T) {
 
 func TestNewFileState(t *testing.T) {
 	// Test with empty stateDir argument
-	storable := NewFileState("")
-	if storable == nil {
+	filePathState := NewFileState("")
+	if filePathState == nil {
 		t.Error("Expected non-nil Storable, got nil")
 	}
 
 	// Test with non-empty stateDir argument
 	tempDir := t.TempDir() // Create a temporary directory for testing
 
-	storable = NewFileState(tempDir)
-	if storable == nil {
+	filePathState = NewFileState(tempDir)
+	if filePathState == nil {
 		t.Error("Expected non-nil Storable, got nil")
 	}
 
-	// Test if the path is set correctly
-	fileStat, ok := storable.(*ReservationStateFile)
-	if !ok {
-		t.Error("Unexpected type returned from NewFileState")
-	}
 	expectedPath := tempDir
-	if fileStat.path != expectedPath {
-		t.Errorf("Expected path %s, got %s", expectedPath, fileStat.path) // Ensure path is set correctly
+	if filePathState.path != expectedPath {
+		t.Errorf("Expected path %s, got %s", expectedPath, filePathState.path) // Ensure path is set correctly
 	}
 }

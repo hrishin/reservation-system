@@ -72,7 +72,7 @@ func (r *ReservationStateFile) Save(seatState *State) error {
 	return nil
 }
 
-func NewFileState(sateDir string) Storable {
+func NewFileState(sateDir string) *ReservationStateFile {
 	if sateDir == "" {
 		// Get the user's home directory
 		homeDir, err := os.UserHomeDir()
