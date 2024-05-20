@@ -19,7 +19,7 @@ mkdir -p $(pwd)/datadir && docker run -v $(pwd)/datadir/:/tmp/data hriships/rese
 Download the right binary from https://github.com/hrishin/reservation-system/releases
 
 ```bash
-rservation A0 1 --state-file /tmp/data
+reservation A0 1
 ```
 
 ## Extra Command
